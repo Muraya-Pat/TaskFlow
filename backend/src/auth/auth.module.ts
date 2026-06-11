@@ -5,10 +5,12 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtAuthGuard } from './jwt.guard';
 import { UsersModule } from '../users/users.module';
+import { TodosModule } from '../todos/todos.module';
 
 @Module({
   imports: [
     UsersModule,
+    TodosModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({

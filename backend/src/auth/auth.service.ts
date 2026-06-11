@@ -2,12 +2,14 @@ import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/co
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
+import { TodosService } from '../todos/todos.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private todosService: TodosService,
   ) {}
 
   async register(name: string, email: string, password: string) {
@@ -22,6 +24,7 @@ export class AuthService {
       email,
       password: hashedPassword,
     });
+    await this.todosService.seedDefaultTodos(user.id);
 
     const token = this.jwtService.sign({ sub: user.id, email: user.email });
     return { token, user: { id: user.id, name: user.name, email: user.email } };
