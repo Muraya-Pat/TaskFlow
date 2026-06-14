@@ -29,6 +29,7 @@ import { ProfileModule } from './profile/profile.module';
     AuthModule,
     UsersModule,
     TodosModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
