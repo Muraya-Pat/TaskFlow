@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
@@ -24,12 +24,19 @@ export class ProfileService {
   }
 
   async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<{ message: string }> {
-    const user = await this.usersRepository.findOne({ where: { id: userId } });
-    if (!user) throw new NotFoundException('User not found');
-    const match = await bcrypt.compare(currentPassword, user.password);
-    if (!match) throw new NotFoundException('Current password is incorrect');
-    user.password = await bcrypt.hash(newPassword, 10);
-    await this.usersRepository.save(user);
+    const result = await this.usersRepository.query(
+      'SELECT password FROM users WHERE id = $1',
+      [userId],
+    );
+
+    if (!result || result.length === 0) throw new NotFoundException('User not found');
+    const match = await bcrypt.compare(currentPassword, result[0].password);
+    if (!match) throw new UnauthorizedException('Current password is incorrect');
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await this.usersRepository.query(
+      'UPDATE users SET password = $1 WHERE id = $2',
+      [hashed, userId],
+    );
     return { message: 'Password changed successfully' };
   }
 

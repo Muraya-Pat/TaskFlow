@@ -1,12 +1,11 @@
-import { Controller, Get, Patch, Post, Delete, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { Controller, Get, Patch, Post, Delete, Body, UseGuards, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { JwtAuthGuard } from '../auth/jwt.guard';
 import { ProfileService } from './profile.service';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { User } from '../users/user.entity';
+import { IsString, IsOptional, IsEmail, MinLength } from 'class-validator';
 
 export class UpdateProfileDto {
   @IsOptional()
@@ -23,7 +22,7 @@ export class ChangePasswordDto {
   currentPassword!: string;
 
   @IsString()
-  @MinLength(6)
+  @MinLength(8)
   newPassword!: string;
 }
 
@@ -33,38 +32,36 @@ export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
   @Get()
-  getProfile(@GetUser() user: User) {
-    return this.profileService.getProfile(user.id);
+  getProfile(@GetUser() user) {
+    return this.profileService.getProfile(user.sub);
   }
 
   @Patch()
-  updateProfile(@GetUser() user: User, @Body() dto: UpdateProfileDto) {
-    return this.profileService.updateProfile(user.id, dto);
+  updateProfile(@GetUser() user, @Body() dto: UpdateProfileDto) {
+    return this.profileService.updateProfile(user.sub, dto);
   }
 
   @Patch('password')
-  changePassword(@GetUser() user: User, @Body() dto: ChangePasswordDto) {
-    return this.profileService.changePassword(user.id, dto);
-  }
+changePassword(@GetUser() user, @Body() dto: ChangePasswordDto) {
+  return this.profileService.changePassword(user.sub, dto.currentPassword, dto.newPassword);
+}
 
   @Post('avatar')
-  @UseInterceptors(
-    FileInterceptor('avatar', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          cb(null, uniqueSuffix + extname(file.originalname));
-        },
-      }),
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, `avatar-${uniqueSuffix}${extname(file.originalname)}`);
+      },
     }),
-  )
-  uploadAvatar(@GetUser() user: User, @UploadedFile() file: Express.Multer.File) {
-    return this.profileService.updateAvatar(user.id, file.filename);
+  }))
+  uploadAvatar(@GetUser() user, @UploadedFile() file: Express.Multer.File) {
+    return this.profileService.updateAvatar(user.sub, file.path);
   }
 
   @Delete()
-  deleteAccount(@GetUser() user: User) {
-    return this.profileService.deleteAccount(user.id);
+  deleteAccount(@GetUser() user) {
+    return this.profileService.deleteAccount(user.sub);
   }
 }
