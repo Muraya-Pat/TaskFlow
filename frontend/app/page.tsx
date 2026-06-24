@@ -292,6 +292,7 @@ export default function HomePage() {
                         borderColor: 'rgba(255,255,255,0.1)',
                         color: 'text.secondary',
                         fontSize: '0.8rem',
+                        fontFamily: 'inherit',
                         px: 2,
                         '&.Mui-selected': {
                           backgroundColor: 'rgba(167,139,250,0.15)',

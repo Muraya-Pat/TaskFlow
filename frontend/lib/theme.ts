@@ -32,16 +32,17 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: '"Inter", "Roboto", sans-serif',
-    h1: { fontWeight: 600, letterSpacing: '-0.02em' },
-    h2: { fontWeight: 600, letterSpacing: '-0.02em' },
-    h3: { fontWeight: 600, letterSpacing: '-0.01em' },
-    h4: { fontWeight: 600, letterSpacing: '-0.01em' },
-    h5: { fontWeight: 500 },
-    h6: { fontWeight: 500 },
-    body1: { fontSize: '0.95rem', lineHeight: 1.6 },
-    body2: { fontSize: '0.85rem', lineHeight: 1.5 },
-    button: { fontWeight: 500, letterSpacing: '0.01em' },
+    fontFamily: 'var(--font-raleway), "Roboto", sans-serif',
+    fontSize: 16,
+    h1: { fontWeight: 800, letterSpacing: '-0.02em' },
+    h2: { fontWeight: 800, letterSpacing: '-0.02em' },
+    h3: { fontWeight: 700, letterSpacing: '-0.01em' },
+    h4: { fontWeight: 700, letterSpacing: '-0.01em' },
+    h5: { fontWeight: 700 },
+    h6: { fontWeight: 600 },
+    body1: { fontSize: '1.05rem', lineHeight: 1.7 },
+    body2: { fontSize: '0.95rem', lineHeight: 1.6 },
+    button: { fontWeight: 700, letterSpacing: '0.01em' },
   },
 
   shape: {
