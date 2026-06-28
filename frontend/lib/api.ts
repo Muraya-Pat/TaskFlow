@@ -57,10 +57,16 @@ export const todosApi = {
     return request(`/todos${params}`);
   },
 
-  create: (title: string, description?: string) =>
+  create: (title: string, description?: string, priority?: string, dueDate?: string | null, status?: string) =>
     request('/todos', {
       method: 'POST',
-      body: JSON.stringify({ title, description }),
+      body: JSON.stringify({ title, description, priority, dueDate, status }),
+    }),
+
+  update: (id: string, data: { title?: string; description?: string; priority?: string; dueDate?: string | null }) =>
+    request(`/todos/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
     }),
 
   updateStatus: (id: string, status: string) =>
