@@ -7,6 +7,12 @@ export enum TodoStatus {
   DONE = 'done',
 }
 
+export enum TodoPriority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+}
+
 @Entity('todos')
 export class Todo {
   @PrimaryGeneratedColumn('uuid')
@@ -25,11 +31,24 @@ export class Todo {
   })
   status!: TodoStatus;
 
+  @Column({
+    type: 'enum',
+    enum: TodoPriority,
+    default: TodoPriority.MEDIUM,
+  })
+  priority!: TodoPriority;
+
+  @Column({ type: 'date', nullable: true })
+  dueDate!: string;
+
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   user!: User;
 
   @Column()
   userId!: string;
+
+  @Column({ type: 'timestamptz', nullable: true, default: null })
+  completedAt!: Date | null;
 
   @CreateDateColumn()
   createdAt!: Date;

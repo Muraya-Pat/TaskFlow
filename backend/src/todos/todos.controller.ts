@@ -2,9 +2,8 @@ import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards } f
 import { TodosService } from './todos.service';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { GetUser } from '../common/decorators/get-user.decorator';
-import { TodoStatus } from './todo.entity';
-import { IsString, IsOptional,IsEnum } from 'class-validator';
-
+import { TodoStatus, TodoPriority } from './todo.entity';
+import { IsString, IsOptional, IsEnum, IsDateString } from 'class-validator';
 
 
 export class CreateTodoDto {
@@ -14,6 +13,35 @@ export class CreateTodoDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsEnum(TodoPriority)
+  priority?: TodoPriority;
+
+  @IsDateString()
+  dueDate!: string;
+
+  @IsOptional()
+  @IsEnum(TodoStatus)
+  status?: TodoStatus;
+}
+
+export class UpdateTodoDto {
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsEnum(TodoPriority)
+  priority?: TodoPriority;
+
+  @IsOptional()
+  @IsDateString()
+  dueDate?: string | null;
 }
 
 export class UpdateStatusDto {
@@ -41,7 +69,16 @@ export class TodosController {
 
   @Post()
   create(@GetUser() user, @Body() dto: CreateTodoDto) {
-    return this.todosService.create(user.sub, dto.title, dto.description);
+    return this.todosService.create(user.sub, dto.title, dto.description, dto.priority, dto.dueDate, dto.status);
+  }
+
+  @Patch(':id')
+  update(
+    @GetUser() user,
+    @Param('id') id: string,
+    @Body() dto: UpdateTodoDto,
+  ) {
+    return this.todosService.update(id, user.sub, dto);
   }
 
   @Patch(':id/status')
