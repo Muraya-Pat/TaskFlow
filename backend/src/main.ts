@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Allow the frontend (http://localhost:3001) to call this API from the browser
   app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: process.env.FRONTEND_URL || 'http://localhost:3001',
     credentials: true,
   });
 
