@@ -670,13 +670,13 @@ export default function HomePage() {
 
                 {/* Status pills */}
                 <Box sx={{
-                  display: 'flex', alignItems: 'center', gap: 0.5,
-                  backgroundColor: 'rgba(255,255,255,0.04)',
-                  border: `1px solid rgba(167,139,250,0.14)`,
-                  borderRadius: 3, px: 1.25, py: 0.5,
+                  display: 'flex', alignItems: 'center', gap: 0.75,
+                  backgroundColor: 'rgba(255,255,255,0.02)',
+                  border: `1px solid rgba(255,255,255,0.08)`,
+                  borderRadius: 0.75, px: 1, py: 0.5,
                 }}>
                   {[
-                    { key: '',            label: 'All',         accent: D.accent  },
+                    { key: '',            label: 'All',         accent: '#7c9cbf' },
                     { key: 'to_be_done',  label: 'To Do',       accent: '#9d8fce' },
                     { key: 'in_progress', label: 'In Progress', accent: '#f59e0b' },
                     { key: 'done',        label: 'Done',        accent: '#34d399' },
@@ -689,40 +689,30 @@ export default function HomePage() {
                         onClick={() => setStatusFilter(key)}
                         sx={{
                           display: 'flex', alignItems: 'center', gap: 0.65,
-                          px: 1.4, py: 0.55,
+                          px: 1.2, py: 0.5,
                           borderRadius: 99,
                           cursor: 'pointer',
                           fontSize: '0.82rem',
                           fontWeight: active ? 700 : 500,
                           whiteSpace: 'nowrap',
                           userSelect: 'none',
-                          color: active ? accent : D.textSecondary,
-                          background: active
-                            ? `linear-gradient(135deg, ${accent}28 0%, ${accent}14 100%)`
-                            : 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)',
-                          border: `1px solid ${active ? `${accent}55` : 'rgba(255,255,255,0.1)'}`,
-                          boxShadow: active ? `inset 0 1px 0 rgba(255,255,255,0.1)` : 'inset 0 1px 0 rgba(255,255,255,0.07)',
+                          color: active ? '#0d1117' : accent,
+                          backgroundColor: active ? accent : `${accent}1a`,
+                          border: `1px solid ${accent}`,
                           transition: 'all 0.18s ease',
                           '&:hover': {
-                            color: accent,
-                            background: `linear-gradient(135deg, ${accent}1e 0%, ${accent}0c 100%)`,
-                            border: `1px solid ${accent}44`,
+                            color: '#0d1117',
+                            backgroundColor: accent,
                           },
                         }}
                       >
-                        <Box sx={{
-                          width: 6, height: 6, borderRadius: '50%',
-                          backgroundColor: accent,
-                          opacity: active ? 1 : 0.5,
-                          flexShrink: 0,
-                        }} />
                         {label}
                         <Box component="span" sx={{
                           minWidth: 18, height: 18, px: 0.5, borderRadius: 99,
                           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '0.7rem', fontWeight: 700,
-                          backgroundColor: active ? `${accent}30` : 'rgba(255,255,255,0.08)',
-                          color: active ? accent : D.textSecondary,
+                          fontSize: '0.7rem', fontWeight: 800,
+                          backgroundColor: active ? '#0d1117' : accent,
+                          color: active ? accent : '#0d1117',
                         }}>
                           {count}
                         </Box>
@@ -776,12 +766,14 @@ export default function HomePage() {
 
                 {hasFilters && (
                   <Button
-                    size="small" variant="outlined"
+                    size="small" variant="contained"
                     onClick={() => { setStatusFilter(''); setSearchFilter(''); setDateFilter(''); setDateValue(null); }}
                     sx={{
-                      fontSize: '0.78rem', px: 1.5, py: 0.4, borderRadius: 2,
-                      color: '#34d399', borderColor: 'rgba(52,211,153,0.3)',
-                      '&:hover': { color: '#34d399', borderColor: 'rgba(52,211,153,0.6)', backgroundColor: 'rgba(52,211,153,0.08)' },
+                      fontSize: '0.78rem', px: 1.5, py: 0.4, borderRadius: 0.5,
+                      backgroundColor: '#34d399', color: '#0d1117',
+                      border: '1px solid #34d399',
+                      boxShadow: 'none',
+                      '&:hover': { backgroundColor: '#34d399', border: '1px solid #34d399', boxShadow: 'none' },
                     }}
                   >
                     Clear filters

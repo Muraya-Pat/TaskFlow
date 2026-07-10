@@ -63,7 +63,7 @@ export default function Sidebar() {
       </Box>
 
       {/* Nav links */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, flex: 1 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, flex: 1 }}>
         {NAV.map(({ label, href, icon: Icon }) => {
           const active = pathname === href;
           return (
@@ -74,43 +74,57 @@ export default function Sidebar() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1.5,
-                px: 1.5,
+                px: 1.25,
                 py: 1,
-                borderRadius: 2,
+                borderRadius: 0.75,
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                backgroundColor: active ? 'rgba(167,139,250,0.12)' : 'transparent',
-                color: active ? '#a78bfa' : 'rgba(255,255,255,0.6)',
+                transition: 'all 0.18s ease',
+                border: '1px solid',
+                borderColor: active
+                  ? 'rgba(167,139,250,0.45)'
+                  : 'rgba(255,255,255,0.08)',
+                backgroundColor: active
+                  ? 'rgba(167,139,250,0.08)'
+                  : 'rgba(255,255,255,0.02)',
+                color: active ? '#e8eaf2' : 'rgba(255,255,255,0.6)',
                 '&:hover': {
+                  borderColor: active
+                    ? 'rgba(167,139,250,0.6)'
+                    : 'rgba(255,255,255,0.16)',
                   backgroundColor: active
-                    ? 'rgba(167,139,250,0.15)'
-                    : 'rgba(255,255,255,0.04)',
-                  color: active ? '#a78bfa' : 'rgba(255,255,255,0.75)',
+                    ? 'rgba(167,139,250,0.12)'
+                    : 'rgba(255,255,255,0.05)',
+                  color: active ? '#e8eaf2' : 'rgba(255,255,255,0.8)',
                 },
               }}
             >
-              <Icon sx={{ fontSize: 18 }} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 30,
+                  height: 30,
+                  borderRadius: 0.5,
+                  flexShrink: 0,
+                  transition: 'all 0.18s ease',
+                  backgroundColor: active ? '#a78bfa' : 'transparent',
+                  border: active ? 'none' : '1px solid rgba(255,255,255,0.14)',
+                  boxShadow: active ? '0 3px 10px rgba(167,139,250,0.35)' : 'none',
+                }}
+              >
+                <Icon sx={{ fontSize: 16, color: active ? '#0d1117' : 'rgba(255,255,255,0.55)' }} />
+              </Box>
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: active ? 600 : 400,
+                  fontWeight: active ? 600 : 500,
                   fontSize: '0.875rem',
                   letterSpacing: active ? '0' : '0.01em',
                 }}
               >
                 {label}
               </Typography>
-              {active && (
-                <Box
-                  sx={{
-                    ml: 'auto',
-                    width: 3,
-                    height: 3,
-                    borderRadius: '50%',
-                    backgroundColor: '#a78bfa',
-                  }}
-                />
-              )}
             </Box>
           );
         })}
