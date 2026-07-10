@@ -57,7 +57,7 @@ export default function Sidebar() {
         >
           TaskFlow
         </Typography>
-        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem' }}>
+        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.7rem' }}>
           Stay in flow
         </Typography>
       </Box>
@@ -80,7 +80,7 @@ export default function Sidebar() {
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
                 backgroundColor: active ? 'rgba(167,139,250,0.12)' : 'transparent',
-                color: active ? '#a78bfa' : 'rgba(255,255,255,0.45)',
+                color: active ? '#a78bfa' : 'rgba(255,255,255,0.6)',
                 '&:hover': {
                   backgroundColor: active
                     ? 'rgba(167,139,250,0.15)'
